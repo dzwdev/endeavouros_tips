@@ -1,0 +1,325 @@
+ ----installing
+GPT partition table and not MBR.
+prefer not to use dual boot. just install Linux OS
+
+--partitions طريقة Efi
+- efi: fat32. flags: boot
+- root = /: ext4.  no flags.
+-/home partition. ext4. no flags.
+- swap
+
+--partitions طريقة MBR
+- grub-bootloader: unformatted. flags: grub-bootloader
+- root = /: ext4.  no flags.
+-/home partition. ext4. no flags.
+- swap
+
+- قسمة efi أو grub-bootloader: فيها 500 ميغا
+- قسمة / أي النظام: فيها 80 جيغا
+- قسمة swap: أي الرام الافتراضية، إذا كان القرص الصلب hdd فمن المستحن إضافتها، وإن كان ssd أو nvme فمن الأفضل عملها عبر ملف، أشرح لكم لاحقا يكفية ذلك إن شاء الله. من أراد إضافتها فيجعلها 4 جيغا.
+- قسمة /home: هنا الملفات الشخصية، يمكن جعلها بقية المساحة، 150 جيغا مثلا
+
+---make swap file
+sudo mkswap -U clear --size 4G --file /swapfile
+sudo swapon /swapfile
+add entry to fstab: kate /etc/fstab
+/swapfile none swap defaults 0 0
+
+hdd: swap partitions better
+ssd: swap file better
+
+---Advices to use archlinux
+Use the LTS kernel
+Uninstall your update notifier
+Install only a single DE/WM   : desktop environment
+Let your updates finish before rebooting
+Make sure your root partition doesn’t become completely full
+Use a simple partition layout
+Use a simple system configuration -no btrfs or grub or snapshooting boot
+Don’t re-use /home -
+Have some amount of swap
+Don’t reset or hard power off your system -
+Don’t install packages you don’t use -
+Don’t use 3rd party repositories -
+Don’t use *-git packages without a reason
+Use a minimal maintenance routine
+Read the questions pacman asks you
+Don’t multi-boot
+Don’t follow advice you don’t understand -
+Use common, mainstream hardware
+
+----for bios update from fwupd.org:
+inxi -M      / for info
+fwupdmgr get-updates
+fwupdmgr update
+
+---info
+open terminal in kde: ctrl+alt+t
+install package: sudo pacman -S software
+
+-----to install AUR packages from the terminal
+yay -S packagename / or:
+pamac build pckgname
+
+---install pamac: a pacman GUI
+yay -S pamac-aur
+disable check for updates
+----other package browser
+pkgbrowser
+remove: sudo pacman -R pamac-aur libpamac-aur pkgbrowser
+
+----softwares
+sudo pacman -S libreoffice-fresh wine krita flelight cups cups-pdf python-pip android-tools onionshare obs-studio neofetch base-devel kwave krecorder
+
+yay -S shamela boomaga crow-translate muezzin-bin ventoy-bin
+
+--detailled
+libreoffice-fresh
+wine
+winetricks
+kde partition manager
+evolution / email client, or: claws-mail , or:
+krita    / image editor
+flelight / or: disk usage analyser: baobab
+cups   / for printing
+cups-pdf
+python-pip
+android-tools     / adb and fastboot
+onionshare
+obs-studio    / record screen
+neofetch / show info in CLI
+
+base-devel / to build AUR packages
+PDF Mix to print booklet?
+jdownloader2 for batch youtube download
+webcamoid   / camera software
+vlc: already with endeavouos / alternative: haruna is better
+yay: shipped be default in endeavouros
+
+yay -S ventoy-bin
+yay -S muezzin-bin
+yay -S crow-translate
+yay -S boomaga  / booklet printing
+yay -S foo2zjs-nightly / hp printer . alternative: hplip
+yay -S shamela / المكتبة الشاملة
+
+ktea /for alaram
+kwave/ audio editor
+krecorder / video recoreder
+spectacle / kde screen capture
+virt-manager
+tor browser
+
+---settings
+shortcut:  kscreen-doctor --dpms off / ctrl+/
+shortcut to toggle touchpad: ctrl+B
+
+--full upgrade
+yay / = yay -Syu / the best: it updates official repo + aur
+eso-update
+sudo pacman -Syu
+
+---printer
+sudo pacman -S cups cups-browsed cups-filters cups-pdf system-config-printer --needed
+full CUPS: ghostscript
+sudo pacman -R gsfonts foomatic-db-engine foomatic-db foomatic-db-ppds foomatic-db-nonfree foomatic-db-nonfree-ppds gutenprint foomatic-db-gutenprint-ppds
+QT envirenment: sudo pacman -S print-manager --needed
+sudo systemctl enable --now cups.socket
+sudo systemctl enable --now cups.service
+
+----firefox browser
+kiwix
+ublock origin addon for firefox
+Easy Youtube Video Downloader Express firefox
+settings: colors: dark background
+open last session
+
+---libreoffice
+libreoffice: language settings default complex text layout
+custom: ctrl+space = styles: character: no character style
+ctrl+B = strong emphasis
+extention: add: AltSearch
+extention:  Template Changer
+
+---enable bluetooth
+sudo systemctl enable --now bluetooth
+
+----virtual machine VM - KVM qmu
+sudo pacman -S libvirt qemu virt-manager  virt-viewer dnsmasq bridge-utils libguestfs vde2 openbsd-netcat ebtables iptables
+virt-manager   / front end of libvirt
+
+sudo systemctl enable libvirtd.service
+sudo systemctl start libvirtd.service
+# Check that the service is running (press 'q' to quit):
+systemctl status libvirtd.service
+
+kate /etc/libvirt/libvirtd.conf
+
+Navigate to around line 85 and uncomment the following lines:
+unix_sock_group = "libvirt"
+And then navigate to around line 108 and uncomment:
+unix_sock_rw_perms = "0770"
+Add your user to the libvirt group
+sudo usermod -G libvirt -a `whoami`
+# If you get the "usermod: group 'libvirt' does not exist" error, create the group by
+# running the following command, and then try adding your user again.
+newgrp libvirt
+sudo systemctl restart libvirtd.service
+
+sudo virsh net-autostart default
+sudo virsh net-list --all
+sudo virsh net-start default
+
+then: virt-manager : add connection
+
+shared folders:
+WinFSP GitHub in guest windows.   linux is the host OS
+install: Core
+virtio-win-guest-tools.exe
+Services
+VirtIO-FS Service
+
+--or
+virtual box + extention pack for usb / add user to group: sudo gpasswd -a $USER vboxusers  / check: groups $USER
+virtualbox-guest-utils  / for shared folders
+xtreme / new link . or: perspolis
+
+---------------wine theme
+Type "wine regedit" in a terminal. Then navigate to HKEY_CURRENT_CONFIG > Software > Fonts and change the LogPixels: 85
+
+winecfg: themes: no theme.
+wineRT: light. / not dark
+control background: black
+control text: white
+windows background: black
+windows text: wite
+tooltip background: black
+tooltip text: white.
+menu background: black
+menu text: white.
+
+----fingerprint
+libfprint
+fprintd
+to configure: fprintd-enroll
+
+-----usefull commands
+shutdown 30     / shutdown after 30 minutes
+sudo systemctl start NetworkManager   / start networkmanager service
+sudo rm /path/to/file /remove file
+
+---clean system
+pamac-manager: remove all orphans
+remove not necessary AUR packages
+pacman -Qdtq | sudo pacman -Rns -
+pacman -Qqd | sudo pacman -Rsu --print -
+to remove theme: pacman -Qqd | sudo pacman -Rsu -
+
+-----ffmpeg split video file
+ffmpeg -i 0.mp4 -t 00:38:36 -c copy smallfile1.mp4 \
+-ss 00:50:00 -c copy smallfile2.mp4
+
+ADD picture to audio:
+ffmpeg -loop 1 -i b.jpg -i 1 31-35.mp3 -shortest out.mp4
+ffmpeg -i black.png -i 31-35.mp3 ep1.mp4
+
+---ssh
+sudo pacman -S openssh
+sudo systemctl enable --now sshd
+sudo systemctl status sshd.service
+sudo systemctl enable sshd.servicestart sshd.service
+sudo systemctl start sshd.service
+ssh-keygen -f ~/.ssh/aur
+
+Your identification has been saved in /home/pc/.ssh/aur
+Your public key has been saved in /home/pc/.ssh/aur.pub
+
+never share the pricate key
+
+----secure messaging apps
+Jitsi, Mumble, Jami, GnuGk, Linphone, FreeSwitch, Asterisk, Wire, Kamailio, Ekiga, qTox, or Empathy
+
+----wakeup alarm
+echo "sudopass HERE" | sudo -S rtcwake -m show -l -v |rg alarm: | cut -c 8-30
+echo Setting rtclock; echo "sudopass HERE" | sudo -S rtcwake -m no -l -t $(date +%s -d 'tomorrow 0259')
+echo bs | sudo -S rtcwake -m show -l -v |rg alarm: | cut -c 12-30
+echo bs | sudo -S rtcwake -m no -l -t $(date +%s -d 'tomorrow 0315')
+echo bs | sudo -S rtcwake -m no -l -t $(date +%s -d 'today 0740')
+
+----kate: reopen last opened documents
+Sessions: New session: Default session
+configure: open last session
+
+-----timeshift dark moode
+sudo cp -r /home/$USER/.config/gtk-3.0/* /root/.config/gtk-3.0
+
+---best file system to share with windows / for flash usb device
+exFAT
+
+---export packages list
+pacman -Qqe > pkglist.txt
+---install packages from a list
+pacman -S --needed - < pkglist.txt
+/var/cache/pacman/pkg
+the packages from the cache will be used - no need to download again
+pacman -Syu first
+everything that is already present will not be downloaded again
+
+to change the cahe folder:
+Edit /etc/pacman.conf and change the line:
+#CacheDir    = /var/cache/pacman/pkg/
+
+/var/cache/pkg/
+sudo pacman -Syu --cachedir
+
+# pacman -Sw package_name
+download package without installing it
+
+---to ask helper
+inxi -FAZ --no-host | eos-sendlog
+arch-audit-gtk
+
+--install from usb
+mount --mkdir /dev/sdxY /mnt/repo
+/etc/pacman.conf
+[custom]
+SigLevel = PackageRequired
+Server = file:///mnt/repo/Packages
+# pacman -Syu
+
+---to execute a file
+terminal: ./file.run
+
+---how to run a python scrypt
+python -m venv ./
+source ./bin/activate
+pip install -r requirements.txt
+python ./file.py
+
+---new win32 wine
+WINEPREFIX="/home/endeavouros/.local/share/wineprefixes/wine32" WINEARCH=win32 wine miflash_unlock.exe
+WINEPREFIX=$HOME/.wine wine launcher.exe
+wine miflash_unlock.exe WINEDEBUG=-all
+lib32-libglvnd
+lib32-libxcomposite
+winetricks corefonts
+WINEARCH=win32 WINEDEBUG=fixme-all wine launcher.exe
+WINEDEBUG=fixme-all wine launcher.exe
+WINEDEBUG=fixme-all wine priPrinterSetup.exe
+
+----pacman and pamac
+pamac is build by manjaro team and not archlinux. it can download from aur. no need for yay
+pacman is archlinux package manager
+cli = command line interface
+gui = graphic user interface
+Pacman can’t install/build aur packages so if you use Pacman you need an aur helper like 'yay'.
+other pacman gui: Octopi tkpacman vpacman
+sudo pacman -S   / install ine package
+sudo pacman -Syu  / full system upgrade
+sudo pacman -Syu --ignore discord,firefox,jdk-openjdk,libreoffice-fresh
+---- upgrade only from specefic repo
+sudo pacman -S --needed $(comm -12 <(pacman -Qq | sort) <(pacman -Slq core | sort))
+/-S, --sync Synchronize packages. Packages are installed directly from the remote repositories, including all dependencies required to run the packages. [...]
+pamac install mpv   / this code will update other packages.
+
+/etc/pacman.conf  : ParallelDownloads>

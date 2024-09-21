@@ -90,7 +90,7 @@ or:
 eos-packagelist --list
 
 ----softwares
-sudo pacman -S libreoffice-fresh wine krita flelight cups cups-pdf python-pip android-tools onionshare obs-studio neofetch base-devel kwave krecorder
+sudo pacman -S libreoffice-fresh wine krita filelight cups cups-pdf python-pip android-tools onionshare obs-studio neofetch base-devel kwave krecorder
 
 yay -S shamela boomaga crow-translate muezzin-bin ventoy-bin
 
@@ -101,7 +101,7 @@ winetricks
 kde partition manager
 evolution / email client, or: claws-mail , or:
 krita    / image editor
-flelight / or: disk usage analyser: baobab
+filelight / or: disk usage analyser: baobab
 cups   / for printing
 cups-pdf
 python-pip

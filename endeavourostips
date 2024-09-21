@@ -14,11 +14,6 @@ prefer not to use dual boot. just install Linux OS
 -/home partition. ext4. no flags.
 - swap
 
-- قسمة efi أو grub-bootloader: فيها 500 ميغا
-- قسمة / أي النظام: فيها 80 جيغا
-- قسمة swap: أي الرام الافتراضية، إذا كان القرص الصلب hdd فمن المستحن إضافتها، وإن كان ssd أو nvme فمن الأفضل عملها عبر ملف، أشرح لكم لاحقا يكفية ذلك إن شاء الله. من أراد إضافتها فيجعلها 4 جيغا.
-- قسمة /home: هنا الملفات الشخصية، يمكن جعلها بقية المساحة، 150 جيغا مثلا
-
 ---make swap file
 sudo mkswap -U clear --size 4G --file /swapfile
 sudo swapon /swapfile
@@ -67,6 +62,32 @@ disable check for updates
 ----other package browser
 pkgbrowser
 remove: sudo pacman -R pamac-aur libpamac-aur pkgbrowser
+
+---change DE
+login to TTY4  Ctrl + Alt + F4
+give username and password to login as user.
+1: uninstall old Desktop
+eos-packagelist "KDE-Desktop" > kde
+sudo pacman -Rc - < kde
+2 install the new one:
+eos-packagelist --install "LXQT-Desktop"
+3 make sure the base system is ok:
+eos-packagelist --install "Desktop-Base + Common packages"
+4 change display manager:
+sudo systemctl -f enable GDM  / this is just for gnome?
+sudo systemctl -f enable --now GDM
+
+sudo pacman -S xfce4
+sudo pacman -S xfce4-goodies
+sudo pacman -S gnome
+sudo pacman -S deepin deepin-extra
+sudo pacman -S budgie-desktop
+sudo pacman -S cinnamon system-config-printer gnome-keyring blueberry cinnamon-translations
+sudo pacman -S mate mate-extra system-config-printer blueman
+sudo pacman -S plasma-desktop
+full: sudo pacman -S plasma
+or:
+eos-packagelist --list
 
 ----softwares
 sudo pacman -S libreoffice-fresh wine krita flelight cups cups-pdf python-pip android-tools onionshare obs-studio neofetch base-devel kwave krecorder

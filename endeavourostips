@@ -56,7 +56,7 @@ install package: sudo pacman -S software
 yay -S packagename / or:
 pamac build pckgname
 
----install pamac: a pacman GUI
+---install pamac: a pacman GUI - not recommended
 yay -S pamac-aur
 disable check for updates
 ----other package browser
@@ -90,7 +90,7 @@ or:
 eos-packagelist --list
 
 ----softwares
-sudo pacman -S libreoffice-fresh wine krita filelight cups cups-pdf python-pip android-tools onionshare obs-studio neofetch base-devel kwave krecorder
+sudo pacman -S libreoffice-fresh wine krita filelight cups cups-pdf python-pip android-tools onionshare obs-studio neofetch base-devel kwave krecorder akm
 
 yay -S shamela boomaga crow-translate muezzin-bin ventoy-bin
 
@@ -109,9 +109,10 @@ android-tools     / adb and fastboot
 onionshare
 obs-studio    / record screen
 neofetch / show info in CLI
+pdfarranger /pdf editing tool
+akm / kernel manager
 
 base-devel / to build AUR packages
-PDF Mix to print booklet?
 jdownloader2 for batch youtube download
 webcamoid   / camera software
 vlc: already with endeavouos / alternative: haruna is better
@@ -325,8 +326,13 @@ lib32-libglvnd
 lib32-libxcomposite
 winetricks corefonts
 WINEARCH=win32 WINEDEBUG=fixme-all wine launcher.exe
-WINEDEBUG=fixme-all wine launcher.exe
+WINEDEBUG=fixme-all wine Al_Madinah_Mushaf.exe
 WINEDEBUG=fixme-all wine priPrinterSetup.exe
+export LANG=ar_DZ.UTF-8; WINEDEBUG=fixme-all wine Al_Madinah_Mushaf.exe
+export LANG=ar_DZ.UTF-8; wine autorun.exe
+wine-mono
+wine-gecko
+export LANG=ar_DZ.UTF-8; WINEDEBUG=fixme-all wine NashrMaktabi.exe
 
 ----pacman and pamac
 pamac is build by manjaro team and not archlinux. it can download from aur. no need for yay

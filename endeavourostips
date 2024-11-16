@@ -3,16 +3,16 @@ GPT partition table and not MBR.
 prefer not to use dual boot. just install Linux OS
 
 --partitions طريقة Efi
-- efi: fat32. flags: boot
-- root = /: ext4.  no flags.
+- efi: fat32. flags: boot - 1 GB
+- swap - 4 GB
+- root = /: ext4.  no flags. - at least 32 GB
 -/home partition. ext4. no flags.
-- swap
 
---partitions طريقة MBR
-- grub-bootloader: unformatted. flags: grub-bootloader
-- root = /: ext4.  no flags.
+--partitions طريقة BIOS - MBR or GPT are supported
+- swap - 4 GB
+- root = /: ext4.  no flags. - at least 32 GB
 -/home partition. ext4. no flags.
-- swap
+- grub-bootloader: unformatted. flags: grub-bootloader - at the end of the space. at least 16.5 kb
 
 ---make swap file
 sudo mkswap -U clear --size 4G --file /swapfile
@@ -24,7 +24,7 @@ hdd: swap partitions better
 ssd: swap file better
 
 ---Advices to use archlinux
-Use the LTS kernel
+Use the LTS kernel - you can change it with: akm
 Uninstall your update notifier
 Install only a single DE/WM   : desktop environment
 Let your updates finish before rebooting
@@ -51,10 +51,7 @@ fwupdmgr update
 ---info
 open terminal in kde: ctrl+alt+t
 install package: sudo pacman -S software
-
------to install AUR packages from the terminal
-yay -S packagename / or:
-pamac build pckgname
+install from AUR: yay package
 
 ---install pamac: a pacman GUI - not recommended
 yay -S pamac-aur
@@ -71,11 +68,14 @@ eos-packagelist "KDE-Desktop" > kde
 sudo pacman -Rc - < kde
 2 install the new one:
 eos-packagelist --install "LXQT-Desktop"
+eos-packagelist --install "LXDE-Desktop"
+sudo pacman -S --needed - < lxde
 3 make sure the base system is ok:
 eos-packagelist --install "Desktop-Base + Common packages"
 4 change display manager:
 sudo systemctl -f enable GDM  / this is just for gnome?
 sudo systemctl -f enable --now GDM
+lxdm
 
 sudo pacman -S xfce4
 sudo pacman -S xfce4-goodies
@@ -90,7 +90,7 @@ or:
 eos-packagelist --list
 
 ----softwares
-sudo pacman -S libreoffice-fresh wine krita filelight cups cups-pdf python-pip android-tools onionshare obs-studio neofetch base-devel kwave krecorder akm
+sudo pacman -S libreoffice-fresh wine winetricks krita filelight cups cups-pdf python-pip android-tools onionshare obs-studio neofetch base-devel kwave krecorder akm
 
 yay -S shamela boomaga crow-translate muezzin-bin ventoy-bin
 
@@ -111,6 +111,7 @@ obs-studio    / record screen
 neofetch / show info in CLI
 pdfarranger /pdf editing tool
 akm / kernel manager
+f3 / to test flash disk real capacity
 
 base-devel / to build AUR packages
 jdownloader2 for batch youtube download
@@ -131,6 +132,7 @@ krecorder / video recoreder
 spectacle / kde screen capture
 virt-manager
 tor browser
+yay github-desktop
 
 ---settings
 shortcut:  kscreen-doctor --dpms off / ctrl+/
@@ -139,7 +141,7 @@ shortcut to toggle touchpad: ctrl+B
 --full upgrade
 yay / = yay -Syu / the best: it updates official repo + aur
 eso-update
-sudo pacman -Syu
+sudo pacman -Syu / no aur updates
 
 ---printer
 sudo pacman -S cups cups-browsed cups-filters cups-pdf system-config-printer --needed
@@ -226,6 +228,7 @@ fprintd
 to configure: fprintd-enroll
 
 -----usefull commands
+sleep 10
 shutdown 30     / shutdown after 30 minutes
 sudo systemctl start NetworkManager   / start networkmanager service
 sudo rm /path/to/file /remove file
@@ -318,7 +321,7 @@ source ./bin/activate
 pip install -r requirements.txt
 python ./file.py
 
----new win32 wine
+---wine info
 WINEPREFIX="/home/endeavouros/.local/share/wineprefixes/wine32" WINEARCH=win32 wine miflash_unlock.exe
 WINEPREFIX=$HOME/.wine wine launcher.exe
 wine miflash_unlock.exe WINEDEBUG=-all
@@ -330,10 +333,10 @@ WINEDEBUG=fixme-all wine Al_Madinah_Mushaf.exe
 WINEDEBUG=fixme-all wine priPrinterSetup.exe
 export LANG=ar_DZ.UTF-8; WINEDEBUG=fixme-all wine Al_Madinah_Mushaf.exe
 export LANG=ar_DZ.UTF-8; wine autorun.exe
-wine-mono
-wine-gecko
 export LANG=ar_DZ.UTF-8; WINEDEBUG=fixme-all wine NashrMaktabi.exe
 
+wine geko? / explorer
+wine mono / .net
 ----pacman and pamac
 pamac is build by manjaro team and not archlinux. it can download from aur. no need for yay
 pacman is archlinux package manager
@@ -350,3 +353,21 @@ sudo pacman -S --needed $(comm -12 <(pacman -Qq | sort) <(pacman -Slq core | sor
 pamac install mpv   / this code will update other packages.
 
 /etc/pacman.conf  : ParallelDownloads>
+
+-----test usb falsh drive
+yay f3
+f3write /media/flash-drive-mount-point
+f3read /media/flash-drive-mount-point
+If you see from the output that some sectors are corrupted, then your USB flash drive is fake.
+
+First find out the block device name of your flash drive with lsblk command:
+lsblk
+sudo f3probe --destructive --time-ops /dev/sda
+
+---manual ventoy
+fat32=vfat?? VTOYEFI 30 mb
+extfat rest
+
+
+---repositories stats
+https://repology.org/repositories/statistics/total

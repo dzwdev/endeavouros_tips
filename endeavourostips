@@ -1,4 +1,24 @@
- ----installing
+---Advices to use archlinux
+Use the LTS kernel - you can change it with: akm
+Uninstall your update notifier
+Install only a single DE/WM   : desktop environment
+Let your updates finish before rebooting
+Make sure your root partition doesn’t become completely full
+Use a simple partition layout
+Use a simple system configuration -no btrfs or grub or snapshooting boot
+Don’t re-use /home -
+Have some amount of swap
+Don’t reset or hard power off your system -
+Don’t install packages you don’t use -
+Don’t use 3rd party repositories -
+Don’t use *-git packages without a reason
+Use a minimal maintenance routine
+Read the questions pacman asks you
+Don’t multi-boot
+Don’t follow advice you don’t understand -
+Use common, mainstream hardware
+
+----installing
 GPT partition table and not MBR.
 prefer not to use dual boot. just install Linux OS
 
@@ -23,25 +43,15 @@ add entry to fstab: kate /etc/fstab
 hdd: swap partitions better
 ssd: swap file better
 
----Advices to use archlinux
-Use the LTS kernel - you can change it with: akm
-Uninstall your update notifier
-Install only a single DE/WM   : desktop environment
-Let your updates finish before rebooting
-Make sure your root partition doesn’t become completely full
-Use a simple partition layout
-Use a simple system configuration -no btrfs or grub or snapshooting boot
-Don’t re-use /home -
-Have some amount of swap
-Don’t reset or hard power off your system -
-Don’t install packages you don’t use -
-Don’t use 3rd party repositories -
-Don’t use *-git packages without a reason
-Use a minimal maintenance routine
-Read the questions pacman asks you
-Don’t multi-boot
-Don’t follow advice you don’t understand -
-Use common, mainstream hardware
+---after install
+change kernel to lts with akm. sudo pacman -S akm
+
+copy pkg folder from another computer: /var/cache/pacman/
+copy it to /home
+change cachae folder
+Edit /etc/pacman.conf and change the line:
+#CacheDir    = /var/cache/pacman/pkg/
+then make a full system upgrade: yay
 
 ----for bios update from fwupd.org:
 inxi -M      / for info
@@ -297,12 +307,11 @@ Edit /etc/pacman.conf and change the line:
 /var/cache/pkg/
 sudo pacman -Syu --cachedir
 
-# pacman -Sw package_name
+pacman -Sw package_name
 download package without installing it
 
----to ask helper
-inxi -FAZ --no-host | eos-sendlog
-arch-audit-gtk
+sudo cp -r folder/pkg /var/cache/pacman/
+sudo rm -r
 
 --install from usb
 mount --mkdir /dev/sdxY /mnt/repo
@@ -310,7 +319,11 @@ mount --mkdir /dev/sdxY /mnt/repo
 [custom]
 SigLevel = PackageRequired
 Server = file:///mnt/repo/Packages
-# pacman -Syu
+pacman -Syu
+
+---to ask helper
+inxi -FAZ --no-host | eos-sendlog
+arch-audit-gtk
 
 ---to execute a file
 terminal: ./file.run
@@ -337,6 +350,7 @@ export LANG=ar_DZ.UTF-8; WINEDEBUG=fixme-all wine NashrMaktabi.exe
 
 wine geko? / explorer
 wine mono / .net
+
 ----pacman and pamac
 pamac is build by manjaro team and not archlinux. it can download from aur. no need for yay
 pacman is archlinux package manager
@@ -369,5 +383,5 @@ fat32=vfat?? VTOYEFI 30 mb
 extfat rest
 
 
----repositories stats
+---repositories packages number stats
 https://repology.org/repositories/statistics/total

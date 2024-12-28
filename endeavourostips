@@ -64,9 +64,9 @@ install package: sudo pacman -S software
 install from AUR: yay package
 
 ---GUI package managers
+yay -S --needed octopi / dont use aur
 yay pacseek
 yay -S pamac-aur  /disable check for updates
-yay -S --needed octopi
 yay -S --needed bauh
 yay -S tkpacman
 
@@ -115,7 +115,7 @@ yay -S shamela boomaga crow-translate muezzin-bin ventoy-bin
 
 --detailled
 libreoffice-fresh
-wine
+wine /or: wine-staging
 winetricks
 kde partition manager
 evolution / email client, or: claws-mail , or:
@@ -133,6 +133,7 @@ akm / kernel manager
 f3 / to test flash disk real capacity
 redshift / if not using gnome or kde: they have it integrated. make it in startup applications
 
+jre-openjdk
 base-devel / to build AUR packages
 jdownloader2 for batch youtube download
 webcamoid   / camera software
@@ -182,8 +183,9 @@ open last session
 libreoffice: language settings default complex text layout
 custom: ctrl+space = styles: character: no character style
 ctrl+B = strong emphasis
-extention: add: AltSearch
-extention:  Template Changer
+extention: add: AltSearch: AltSearch.oxt
+extention:  Template Changer: TemplateChanger-L-2.0.1.oxt
+all arabic spell checking extention: dict-ar-3.5.oxt
 
 ---enable bluetooth
 sudo systemctl enable --now bluetooth
@@ -253,12 +255,14 @@ shutdown 30     / shutdown after 30 minutes
 sudo systemctl start NetworkManager   / start networkmanager service
 sudo rm /path/to/file /remove file
 
----clean system
+---clean system - ينبغي التثبت مما سيتم حذفه قبل الإقدام عليها
 pamac-manager: remove all orphans
 remove not necessary AUR packages
 pacman -Qdtq | sudo pacman -Rns -
-pacman -Qqd | sudo pacman -Rsu --print -
-to remove theme: pacman -Qqd | sudo pacman -Rsu -
+remove orphans: yay -Yc
+
+---pacman log
+var/log/pacman.log
 
 -----ffmpeg split video file
 ffmpeg -i 0.mp4 -t 00:38:36 -c copy smallfile1.mp4 \
@@ -388,10 +392,9 @@ First find out the block device name of your flash drive with lsblk command:
 lsblk
 sudo f3probe --destructive --time-ops /dev/sda
 
----manual ventoy
+---manual ventoy? dint work?
 fat32=vfat?? VTOYEFI 30 mb
 extfat rest
-
 
 ---repositories packages number stats
 https://repology.org/repositories/statistics/total

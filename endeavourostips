@@ -109,7 +109,7 @@ sudo systemctl start lightdm
 sudo systemctl enable lightdm
 
 ----softwares
-sudo pacman -S libreoffice-fresh wine winetricks krita filelight cups cups-pdf python-pip android-tools onionshare obs-studio neofetch base-devel kwave krecorder akm
+sudo pacman -S libreoffice-fresh wine winetricks krita filelight cups cups-pdf python-pip android-tools onionshare obs-studio neofetch base-devel kwave krecorder akm tgpt
 
 yay -S shamela boomaga crow-translate muezzin-bin ventoy-bin
 
@@ -120,6 +120,9 @@ winetricks
 kde partition manager
 evolution / email client, or: claws-mail , or:
 krita    / image editor
+gimp / photoshop alternative
+inkscape / illustrator alt
+scribus / indesign alt
 filelight / or: disk usage analyser: baobab
 cups   / for printing
 cups-pdf
@@ -132,8 +135,11 @@ pdfarranger /pdf editing tool
 akm / kernel manager
 f3 / to test flash disk real capacity
 redshift / if not using gnome or kde: they have it integrated. make it in startup applications
+yt-dlp   / front end: Parabolic
+tgpt
 
-jre-openjdk
+jre-openjdk - java runstime - is needed for executing GUI Java programs.
+jdk-openjdk - is needed for Java development. jdk= java developement kit
 base-devel / to build AUR packages
 jdownloader2 for batch youtube download
 webcamoid   / camera software
@@ -146,6 +152,7 @@ yay -S crow-translate
 yay -S boomaga  / booklet printing
 yay -S foo2zjs-nightly / hp printer . alternative: hplip
 yay -S shamela / المكتبة الشاملة
+scantailor
 
 ktea /for alaram
 kwave/ audio editor
@@ -298,7 +305,7 @@ echo bs | sudo -S rtcwake -m no -l -t $(date +%s -d 'today 0740')
 ----kate: reopen last opened documents
 Sessions: New session: Default session
 configure: open last session
-
+or: edit application:  --start "Default Session
 -----timeshift dark moode
 sudo cp -r /home/$USER/.config/gtk-3.0/* /root/.config/gtk-3.0
 
@@ -342,11 +349,18 @@ arch-audit-gtk
 ---to execute a file
 terminal: ./file.run
 
----how to run a python scrypt
-python -m venv ./
-source ./bin/activate
+---how to install pip-python scrypt
+mkdir softwarename
+cd softwarename
+python -m venv env
+source env/bin/activate
+pip install name --upgrade
 pip install -r requirements.txt
 python ./file.py
+
+to use the app:
+cd resemble-enhance
+source env/bin/activate
 
 ---wine info
 WINEPREFIX="/home/endeavouros/.local/share/wineprefixes/wine32" WINEARCH=win32 wine miflash_unlock.exe

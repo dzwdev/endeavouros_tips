@@ -63,14 +63,14 @@ open terminal in kde: ctrl+alt+t
 install package: sudo pacman -S software
 install from AUR: yay package
 
----GUI package managers
+---GUI package managers if needed - better not
+yay pacseek / CLI
 yay -S --needed octopi / dont use aur
-yay pacseek
 yay -S pamac-aur  /disable check for updates
 yay -S --needed bauh
 yay -S tkpacman
 
----change DE
+---change DE (desktop environemet)
 login to TTY4  Ctrl + Alt + F4
 give username and password to login as user.
 1: uninstall old Desktop
@@ -119,7 +119,6 @@ wine /or: wine-staging
 winetricks
 kde partition manager
 evolution / email client, or: claws-mail , or:
-krita    / image editor
 gimp / photoshop alternative
 inkscape / illustrator alt
 scribus / indesign alt
@@ -128,7 +127,6 @@ cups   / for printing
 cups-pdf
 python-pip
 android-tools     / adb and fastboot
-onionshare
 obs-studio    / record screen
 neofetch / show info in CLI
 pdfarranger /pdf editing tool
@@ -136,7 +134,9 @@ akm / kernel manager
 f3 / to test flash disk real capacity
 redshift / if not using gnome or kde: they have it integrated. make it in startup applications
 yt-dlp   / front end: Parabolic
+freetube / with tor: default settings using 127.0.0.1 for the IP and 9050 for the port.
 tgpt
+python-pdftotext
 
 jre-openjdk - java runstime - is needed for executing GUI Java programs.
 jdk-openjdk - is needed for Java development. jdk= java developement kit
@@ -182,9 +182,27 @@ sudo systemctl enable --now cups.service
 ----firefox browser
 kiwix
 ublock origin addon for firefox
-Easy Youtube Video Downloader Express firefox
 settings: colors: dark background
-open last session
+---firefox privacy
+settings: privacy and security: Strict
+always delete cookies and data when closing firefox
+always use private browsing
+block pop ups
+uncheck: allow firefox to send technical data
+Enable HTTPS-Only Mode in all windows
+DNS: max protection
+search: use brave search. open. then right click the link bar: add brave search
+---firefox disable copy/past restriction
+about:config
+dom.event.clipboardevents.enabled
+--using tor: network ettings:
+settings: network
+seckets host: 127.0.0.1   port: 9050
+sudo tor
+
+change ip adress:
+sudo killall -HUP tor
+service tor reload
 
 ---libreoffice
 libreoffice: language settings default complex text layout
@@ -237,20 +255,6 @@ virtual box + extention pack for usb / add user to group: sudo gpasswd -a $USER 
 virtualbox-guest-utils  / for shared folders
 xtreme / new link . or: perspolis
 
----------------wine theme
-Type "wine regedit" in a terminal. Then navigate to HKEY_CURRENT_CONFIG > Software > Fonts and change the LogPixels: 85
-
-winecfg: themes: no theme.
-wineRT: light. / not dark
-control background: black
-control text: white
-windows background: black
-windows text: wite
-tooltip background: black
-tooltip text: white.
-menu background: black
-menu text: white.
-
 ----fingerprint
 libfprint
 fprintd
@@ -263,7 +267,7 @@ sudo systemctl start NetworkManager   / start networkmanager service
 sudo rm /path/to/file /remove file
 
 ---clean system - ينبغي التثبت مما سيتم حذفه قبل الإقدام عليها
-pamac-manager: remove all orphans
+with pamac-manager: remove all orphans
 remove not necessary AUR packages
 pacman -Qdtq | sudo pacman -Rns -
 remove orphans: yay -Yc
@@ -306,6 +310,7 @@ echo bs | sudo -S rtcwake -m no -l -t $(date +%s -d 'today 0740')
 Sessions: New session: Default session
 configure: open last session
 or: edit application:  --start "Default Session
+
 -----timeshift dark moode
 sudo cp -r /home/$USER/.config/gtk-3.0/* /root/.config/gtk-3.0
 
@@ -342,7 +347,7 @@ SigLevel = PackageRequired
 Server = file:///mnt/repo/Packages
 pacman -Syu
 
----to ask helper
+---to ask helpe
 inxi -FAZ --no-host | eos-sendlog
 arch-audit-gtk
 
@@ -354,6 +359,7 @@ mkdir softwarename
 cd softwarename
 python -m venv env
 source env/bin/activate
+pip install tkinter
 pip install name --upgrade
 pip install -r requirements.txt
 python ./file.py
@@ -362,19 +368,32 @@ to use the app:
 cd resemble-enhance
 source env/bin/activate
 
+---------------wine theme
+Type "wine regedit" in a terminal. Then navigate to HKEY_CURRENT_CONFIG > Software > Fonts and change the LogPixels: 85
+
+winecfg: themes: no theme.
+wineRT: light. / not dark
+control background: black
+control text: white
+windows background: black
+windows text: wite
+tooltip background: black
+tooltip text: white.
+menu background: black
+menu text: white.
+
 ---wine info
 WINEPREFIX="/home/endeavouros/.local/share/wineprefixes/wine32" WINEARCH=win32 wine miflash_unlock.exe
 WINEPREFIX=$HOME/.wine wine launcher.exe
-wine miflash_unlock.exe WINEDEBUG=-all
 lib32-libglvnd
 lib32-libxcomposite
 winetricks corefonts
 WINEARCH=win32 WINEDEBUG=fixme-all wine launcher.exe
 WINEDEBUG=fixme-all wine Al_Madinah_Mushaf.exe
-WINEDEBUG=fixme-all wine priPrinterSetup.exe
-export LANG=ar_DZ.UTF-8; WINEDEBUG=fixme-all wine Al_Madinah_Mushaf.exe
-export LANG=ar_DZ.UTF-8; wine autorun.exe
-export LANG=ar_DZ.UTF-8; WINEDEBUG=fixme-all wine NashrMaktabi.exe
+export LANG=ar_DZ.UTF-8; WINEDEBUG=fixme-all wine _shamela.exe
+
+shamela3:
+winetricks -q richtx32
 
 wine geko? / explorer
 wine mono / .net
@@ -421,3 +440,24 @@ sudo arch-chroot /mnt
 repair grub:
 grub-install --target=i386-pc /dev/sdX
 grub-mkconfig -o /boot/grub/grub.cfg
+
+---clear pacman cache dir
+To retain only one past version use:
+paccache -rk1
+to remove all cached versions of uninstalled packages, use the following:
+paccache -ruk0
+To remove all the cached packages that are not currently installed, and the unused sync databases, execute:
+pacman -Sc
+remove old packages from the cache and unused repositories.
+ya -Sc
+
+orphans: yay -Yc
+
+----refresh keys
+pacman-key --refresh-keys
+
+---install from PKGBUILD
+makepkg -si
+
+---telegram with tor
+advanced - connection settings: proxy: 127.0.0.1  and 9050

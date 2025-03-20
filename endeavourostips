@@ -18,6 +18,8 @@ Don’t multi-boot
 Don’t follow advice you don’t understand -
 Use common, mainstream hardware
 
+name folder without spaces
+
 ----installing
 GPT partition table and not MBR.
 prefer not to use dual boot. just install Linux OS
@@ -53,8 +55,8 @@ Edit /etc/pacman.conf and change the line:
 #CacheDir    = /var/cache/pacman/pkg/
 then make a full system upgrade: yay
 
-----for bios update from fwupd.org:
-inxi -M      / for info
+----for bios update from fwupd.org: firmware
+inxi -M  / for info
 fwupdmgr get-updates
 fwupdmgr update
 
@@ -137,6 +139,7 @@ yt-dlp   / front end: Parabolic
 freetube / with tor: default settings using 127.0.0.1 for the IP and 9050 for the port.
 tgpt
 python-pdftotext
+Monero - feather-wallet / cryptocurrency / cake wallet
 
 jre-openjdk - java runstime - is needed for executing GUI Java programs.
 jdk-openjdk - is needed for Java development. jdk= java developement kit
@@ -167,6 +170,8 @@ shortcut:  kscreen-doctor --dpms off / ctrl+/
 shortcut to toggle touchpad: ctrl+B
 
 --full upgrade
+eos-update --fast / less bandwidth
+
 yay / = yay -Syu / the best: it updates official repo + aur
 eso-update
 sudo pacman -Syu / no aur updates
@@ -179,11 +184,14 @@ QT envirenment: sudo pacman -S print-manager --needed
 sudo systemctl enable --now cups.socket
 sudo systemctl enable --now cups.service
 
+cups url: http://localhost:631/printers/?
+
 ----firefox browser
 kiwix
 ublock origin addon for firefox
 settings: colors: dark background
 ---firefox privacy
+settings: seach: uncheck search suggestions
 settings: privacy and security: Strict
 always delete cookies and data when closing firefox
 always use private browsing
@@ -198,9 +206,13 @@ dom.event.clipboardevents.enabled
 --using tor: network ettings:
 settings: network
 seckets host: 127.0.0.1   port: 9050
+no proxy for: modem ip adres, example: 192.168.8.1
 sudo tor
 
-change ip adress:
+---kde tor
+settings: network: proxy settings
+
+---change tor ip adress:
 sudo killall -HUP tor
 service tor reload
 
@@ -283,6 +295,9 @@ ADD picture to audio:
 ffmpeg -loop 1 -i b.jpg -i 1 31-35.mp3 -shortest out.mp4
 ffmpeg -i black.png -i 31-35.mp3 ep1.mp4
 
+conver all files in folder to mp3:
+for f in *.mp4; do ffmpeg -i "$f" -vn "$(basename "$f" .mp4).mp3"; done
+
 ---ssh
 sudo pacman -S openssh
 sudo systemctl enable --now sshd
@@ -316,6 +331,9 @@ sudo cp -r /home/$USER/.config/gtk-3.0/* /root/.config/gtk-3.0
 
 ---best file system to share with windows / for flash usb device
 exFAT
+
+---yay aur cache dir
+~/.cache/yay
 
 ---export packages list
 pacman -Qqe > pkglist.txt
@@ -390,7 +408,7 @@ lib32-libxcomposite
 winetricks corefonts
 WINEARCH=win32 WINEDEBUG=fixme-all wine launcher.exe
 WINEDEBUG=fixme-all wine Al_Madinah_Mushaf.exe
-export LANG=ar_DZ.UTF-8; WINEDEBUG=fixme-all wine _shamela.exe
+export LANG=ar_DZ.UTF-8; WINEDEBUG=fixme-all wine accu.exe
 
 shamela3:
 winetricks -q richtx32
@@ -461,3 +479,15 @@ makepkg -si
 
 ---telegram with tor
 advanced - connection settings: proxy: 127.0.0.1  and 9050
+alternatives: Cutegram - forkgram - nicegram
+
+---encrypt a folder
+yay encfsui
+encfs ~/.private ~/private
+
+---privacy
+kde settings: session: start new session
+applications: do not remember opened files
+
+---autostart
+/home/endeavouros/.config/autostart/

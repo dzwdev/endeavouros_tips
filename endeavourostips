@@ -164,6 +164,7 @@ spectacle / kde screen capture
 virt-manager
 tor browser
 yay github-desktop
+archtorify
 
 ---settings
 shortcut:  kscreen-doctor --dpms off / ctrl+/
@@ -208,6 +209,8 @@ settings: network
 seckets host: 127.0.0.1   port: 9050
 no proxy for: modem ip adres, example: 192.168.8.1
 sudo tor
+
+extention: Quick Proxy Toggle
 
 ---kde tor
 settings: network: proxy settings
@@ -476,6 +479,9 @@ pacman-key --refresh-keys
 
 ---install from PKGBUILD
 makepkg -si
+
+--all the system with tor
+yay archtorify
 
 ---telegram with tor
 advanced - connection settings: proxy: 127.0.0.1  and 9050

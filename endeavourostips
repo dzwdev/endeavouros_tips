@@ -38,6 +38,7 @@ prefer not to use dual boot. just install Linux OS
 
 ---make swap file
 sudo mkswap -U clear --size 4G --file /swapfile
+sudo chmod 600 /swapfile
 sudo swapon /swapfile
 add entry to fstab: kate /etc/fstab
 /swapfile none swap defaults 0 0
@@ -120,7 +121,7 @@ libreoffice-fresh
 wine /or: wine-staging
 winetricks
 kde partition manager
-evolution / email client, or: claws-mail , or:
+evolution / email client: doesnt support hardened kernel. other: geary: doesnt work with gmail
 gimp / photoshop alternative
 inkscape / illustrator alt
 scribus / indesign alt
@@ -140,6 +141,7 @@ freetube / with tor: default settings using 127.0.0.1 for the IP and 9050 for th
 tgpt
 python-pdftotext
 Monero - feather-wallet / cryptocurrency / cake wallet
+tutamail client
 
 jre-openjdk - java runstime - is needed for executing GUI Java programs.
 jdk-openjdk - is needed for Java development. jdk= java developement kit
@@ -446,7 +448,7 @@ First find out the block device name of your flash drive with lsblk command:
 lsblk
 sudo f3probe --destructive --time-ops /dev/sda
 
----manual ventoy? dint work?
+---manual ventoy? didnt work?
 fat32=vfat?? VTOYEFI 30 mb
 extfat rest
 
@@ -488,7 +490,7 @@ advanced - connection settings: proxy: 127.0.0.1  and 9050
 alternatives: Cutegram - forkgram - nicegram
 
 ---encrypt a folder
-yay encfsui
+yay encfs / gui: encfsui
 encfs ~/.private ~/private
 
 ---privacy
@@ -497,3 +499,22 @@ applications: do not remember opened files
 
 ---autostart
 /home/endeavouros/.config/autostart/
+
+---download from terminal
+wget link   / alt: curl
+to resume download: wget -c link
+
+----sandbox problem while in hardened kernel
+sudo chmod 4755 /opt/FreeTube/chrome-sandbox
+
+--convert jpg to monochrome black and white
+sudo pacman -S imagemagick
+magick source.jpg -monochrome destination.jpg
+
+---kde konsole with tor
+
+export http_proxy=socks5://127.0.0.1:9050
+export https_proxy=socks5://127.0.0.1:9050
+
+in:
+.bashrc
